@@ -1,0 +1,80 @@
+What is recursion?
+Simply speaking recursion as a begineer can be understood as a function which calls itself.
+
+The simplest example would be:
+def recurse():
+    recurse()
+
+void recurse()
+{
+    recurse();
+}
+
+This function does nothing but calling itself. When it does that, it creates another instance of itself.
+This instance is separate from it and runs on its own without being aware of who called it.
+
+Since this function also has the some code, it would also again call itself and create another instance
+of the recurse. This would in turn create another instance, and so on.
+
+We could make the recurse() function do something before calling recurse().
+
+For example:
+
+def recurse():
+    print(2)
+    recurse()
+
+
+Here, it is the same as above, the only difference is that it will print 2 on the console before calling itself.
+This another instance would then again print 2 and call itself and so on.
+This could seen in this video animation. Each rectangle is an instance of the recurse() function.
+https://www.instagram.com/p/CwrnUnTLw3E/
+
+
+This function is equivalent to the iteration:
+while(True):
+    print(2)
+
+Both these code snippets print 2 forever.
+
+
+
+
+So, does recursions always run into infinite runtimes since the function keeps on calling itself?
+Not really, just like how we use parameters in loops to halt execution, we can use parameters in
+recursive functions to halt. 
+
+For example:
+
+def recurse_times(times):
+    if(times == 0):
+        return          # This return statement would terminate recurse_times(), so it won't print 2 itself nor would it call itself.
+    print(2)
+    recurse_times(times - 1)
+
+
+The function recurse_times() takes a parameter (integer) which is the number of times we want to print 2.
+
+When recurse_times() is called with parameter given to it as 3, it would print 2. Now because 2 has been
+printed once, it needs to be printed 2 more times. Therefore, recurse_times would call itself with the parameter
+given to it as 2. This new instance then again prints 2, calls itself with parameter 1. This new instance again
+prints 2 and calls itself with the paremeter 0. This new instance terminates execution due to the if condition
+because it should print 2 zero times, which is basically doing nothing (its trivial!), that's why the if 
+condition is also called the trivial condition.
+Without trivial conditions recursive functions would never terminate. 
+
+It is very essential for a halting recursive function to have a trivial condition!
+
+Iterative version:
+
+Calling recurse_times(3) is equivalent to the following loop:
+
+for i in range(3):
+    print(2)
+
+OR
+
+for(i = 0; i < 3; i++) {
+    print(2);
+}
+
