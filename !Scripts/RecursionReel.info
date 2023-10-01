@@ -1,0 +1,28 @@
+The script for a recursion explaination on Instagram.
+
+What is recursion?
+Simply speaking, recursion, as a begineer, can be understood as a function which calls itself.
+Now, what do I mean by that?
+Lets see an example to make it clear.
+
+The simplest example would be:
+def recurse():
+    recurse()
+
+This function has only one line in its body. It's a call to a function which happens to be the same function!
+Can it do this? Are functions allowed to call themselves?
+As it turns out, yes, they can!
+
+Lets see this with some visuals. Say, you call this recurse() function in your program.
+
+Note in this visual, the box represents the function [:- Underline the "Box represents a function" line]
+and the lines inside the box is the code in the function. Here, we only have one line of code[:- Underline
+the "One line of code" part]. We're gonna call it function 1. 
+
+Now, what happens when that line is executed?
+
+This line in the function would create another instance of the recurse function like so.
+Since, this is the same code as before, this would in turn create another instance, and so on.
+Creating new recurse instances theoretically forever.
+
+How does it stop then? This is where trivial conditions come into play.
