@@ -1,0 +1,42 @@
+# The essence of count nodes in a binary tree program is the recursion and thinking from the perspective
+# of the parent. It is about how the parent node needs to do one simple thing along with the trivial condition
+# which just magically solves the problem. 
+# We should be focusing on that in this script.
+
+# Keep it simple and don't over-explain
+
+Hey!
+Today we will learn how binary trees can count the number of nodes recursively.
+So, here we have a simple binary tree.
+There is a parent node (heighlights the parent node), and two children nodes (heighlights both children nodes).
+These children nodes do not have any children themselves (highlights the children pointing to nothing).
+We can say their children are null trees.
+
+
+Let's say someone asks the parent node to count the number of nodes it has in its tree. (Personify the parent node)
+Let's think from the perspective of the parent node of how this can be done. The parent could go count each node.
+OR
+
+It could do it recursively!
+Note that each child of the parent is a parent of another tree (a subtree). The parent can ask its children how many
+nodes they have. Both the left and right child will have to be asked. Whatever they tell the parent, s/he can add
+the two values and a one for himself/herself.
+
+Now, when the parent asks the left child for its count. Lets think from the perspective of the left child (Zoom into 
+the left child if possible).
+
+The left child is left with the same problem as its parent had. 
+Now this is what we call recursion, we had the original problem for a bigger tree, but now we run into the same problem
+but for a smaller tree or its subtree. Solving this smaller problem will provide the solution for the bigger, original
+problem.
+
+Getting back to the left child, he will do the same thing his parent did. He will ask his left and right child for their
+count and add them. [short pause] But he does not have any children. That means he is the only one node in this own tree.
+He can now tell his parent that there is just one node in his subtree.
+
+
+Symmetrically, the right child does the same evaluation since you can see she also has no children. She returns 1.
+The parent then adds the two values (1 + 1) and itself (1) to get the total number of nodes in the tree - 3.
+And indeed the tree has 3 nodes. The parent and its two children!!
+
+# Let's create the video upto this point and then we can move on for anything.

@@ -1,19 +1,29 @@
 What is recursion?
-Simply speaking recursion as a begineer can be understood as a function which calls itself.
+Simply speaking, recursion, as a beginner, can be understood as a function which calls itself.
+Now, what do I mean by that?
+Lets see an example to make it clear.
 
 The simplest example would be:
 def recurse():
     recurse()
 
+
+If you are interested, here is the C/C++ equivalent of the recurse() function:
 void recurse()
 {
     recurse();
 }
 
-This function does nothing but calling itself. When it does that, it creates another instance of itself.
-This instance is separate from it and runs on its own without being aware of who called it.
+This function has only one line in its body. It's a function call with no arguments thats why the ().
+One function can of course call another function in any programming language.
+But here, the function that it is calling is it itself! Can it do this? Is it allowed to do so?
+As it turns out, yes, it can!
+When it does that, it creates another instance of itself.
+ xx -- This instance is separate from it and runs on its own without being aware of who called it. (Dont say this, maybe we can use this line later)
 
-Since this function also has the some code, it would also again call itself and create another instance
+Lets see this with some visuals. Say, you define the recurse() function in your program, and then call it.
+
+Since this function also has the same code, it would also again call itself and create another instance
 of the recurse. This would in turn create another instance, and so on.
 
 We could make the recurse() function do something before calling recurse().
