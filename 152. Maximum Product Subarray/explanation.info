@@ -1,0 +1,57 @@
+If we have an array of integers, then there can be a 0 in the array.
+
+In this problem, we are supposed to multiply the elements of the array in a subarray, which is part of 
+the array. If a subarray contains 0 the whole product becomes 0. So, if you think about it,
+a 0 in the array divides the array into 2 parts.
+
+For example 
+[1, 2, 5, 0, 6, 7, 8]
+
+Here, we can solve for maximum product subarray for [1, 2, 5] and [6, 7, 8] individually and the greater
+of the 2 would be the result.
+
+
+So, basically, in a linear algorithm (which we'll be describing shortly), when we encounter 0, we can forget
+about everything and start over again to evaluate the result using the same algorithm.
+This is how we handle the case of 0 if we encounter it.
+
+Now, lets forget abuot 0. If there are only positive numbers in the array, we can just multiply all of them
+to get the answer. The complexity arises from negative numbers. Each negative we encounter could make the product
+jump from highest to lowest and vice versa.
+
+Lets break it down simply (Lets assume the array has no 0 because we already know how to handle its case).
+There can be only two cases:
+1) The array contains even number of negatives.
+2) The array contains odd number of negatives.
+
+Case 1:
+If there are even negatives, we can just take the whole array's product since it'll be positive and so highest.
+
+Case 2:
+In this case though, there can be two possible answers
+ 1  2  3  4  5  6  7  8  9  10  11  12  13  14  15  16  17
+[+, +, -, +, +, +, -, +, +,  -,  +,  +,  -,  +,  -,  +,  +]
+
+Lets say elements 3, 7, 10, 13 and 15 are negative numbers. A total of 5 negatives (odd).
+
+The possible solutions could be 
+i) Product of elements from positions 1 to 14 (inclusive)
+   Note that this picks up the first 4 negatives and stops right before the last negative number,
+   which is at 15th place.
+ii) Product of the elements from positions 4 to 17 (inclusive)
+    Note that this picks up the last 4 negatives, starting from right after the first negative,
+    which is at 3rd place.
+
+It should be clear to see that we tried to get as many even negatives as possible to get the
+maximum product.
+
+
+Keeping all this in mind, our algorithm does something very simple.
+It runs Kadane's algorithm from left to right and then right to left.
+If the answer falls in case(i) of odd negatives, left to right run will identify it, 
+otherwise if it falls in case(ii) of odd negatives, right to left run will identify it.
+
+This will also solve the case of even negatives.
+
+For the case of 0, we'll just restart by setting our product so far we have seen to 0.
+This will essentially restart the solution for the array ahead of 0.
