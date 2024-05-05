@@ -1,0 +1,9 @@
+1) Read the question carefully, look for keywords.
+    For example, if the question has a tree - is it a binary tree?
+    If yes, is it a binary search tree? etc
+
+    Sometimes, we may assume or miss out certain things from the problem which results
+    in time spent working on the incorrect problem. So, to avoid that, always read
+    the problem carefully and clear out any doubts that might arise.
+
+2) 
