@@ -1,0 +1,53 @@
+Kahn's algorithm
+
+A great way to toplogically sort a DAG is through Kahn's algorithm.
+
+Intuition:
+If we have indegrees of all the nodes in an array, then we can place all nodes with indegree 0 in a queue.
+Grab nodes from the queue one by one and reduce the indegree of its neighbours by one.
+If any of the node's neighbour's updated indegree becomes zero we append it in the queue.
+
+The order in which we are popping off the nodes from the queue is the toplogical sort.
+This algorithm bears some resemblance to BFS.
+
+
+def do_topological_sort(edges):
+    # Declare the graph hash and indegrees hash to store indegrees of the nodes.
+    indegrees = {}
+    graph = {}
+
+    # Initialize the graph and indegrees hash.
+    for i in range(n):
+        graph[i] = []
+        indegrees[i] = 0
+
+    # Contruct the DAG (Directed Acyclic Graph)
+    for edge in edges:
+        graph[edge[0]].append(edge[1])
+        indegrees[edge[1]] += 1
+
+    # Initialize the queue with nodes with 0 indegree.
+    # Note that atleast one node must have 0 indegree in a DAG.
+    nodes_with_zero_degree = deque()
+    for i in range(n):
+        if(indegrees[i] == 0):
+            nodes_with_zero_degree.append(i)
+
+    # Declare the toplogical_sort resultant array.
+    topological_sort = []
+
+    # Loop while queue is not empty.
+    while(nodes_with_zero_degree):
+        node = nodes_with_zero_degree.popleft()
+        topological_sort.append(node)
+
+        # Remove the node from the graph.
+        # The node provides an indegree of one to each of its neighbour. 
+        # So removing the node means we should remove one indegree from each of its 
+        # neighbour. Whenever a neighbour's indegree becomes 0, we add it to the queue.
+        for neighbour in graph[node]:
+            indegrees[neighbour] -= 1
+            if(indegrees[neighbour] == 0):
+                nodes_with_zero_degree.append(neighbour)
+
+    return toplogical_sort
