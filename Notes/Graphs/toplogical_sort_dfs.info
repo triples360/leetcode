@@ -1,0 +1,64 @@
+Topological sort (DFS) with cycle detection 
+
+In DFS, we explore the depths of the graph first. We have a hash, lets call it 'visited', which keeps track of
+which nodes we have seen so far. If we have gone through a node once, we need not go through it again.
+
+Topological sort with DFS work a little different but the core idea is the same. 
+We do have a 'visited' hash, but a node could take on three different states, unlike in normal DFS where it can take
+2 states (seen and not seen)
+
+In Topological sort, during run we could assign one of the three colours to a node (white, gray or black)
+
+1) White: A node with this colour has NOT been detected/processed by our program yet at all.
+2) Black: A node with this colour has been completely processed by our program.
+3) Gray: This is a special case of node, this means that the node is under process. 
+
+What do we mean by completely processed (black) and under process (gray).
+When we have a curr node in the DFS stack, we then process its neighbours. 
+1) While we are processing its neighbours, we colour the node gray (under process since its neighbours are still processing).
+2) Once all its neighbours have been processed, we colour it black (completed since all its neighbours are completely processed).
+
+
+How to detect a cycle in Topological sort with DFS?
+When we are discovering neighbours of a node (N), if we encounter a gray node (G), that means we have a cycle!!
+This is because the gray node (G) triggered a DFS run that discovered N through a path and that DFS run came back to
+G through another path completing a cycle.
+
+
+Why when we encounter black (B) as N's neighbour does it not mean cycle detected?
+This is because the B cannot get to N, N can only get to B. Remember DAGs are uni-directional!
+Therefore the cycle is not completed in this case.
+
+
+
+
+In the code below, we use hash values 0, 1 and 2 to denote the colours in the colours hash.
+0: white
+1: gray
+2: black
+
+
+def dfs(graph, colours, curr_node, topo_sort):
+    if(colours[curr_node] == 2):
+        # False implies that cycle hasn't been detected. YET!
+        return False
+    if(colours[curr_node] == 1):
+        # True return value indicates cycle detected!!
+        return True
+
+    # We'll now start processing neighbours of the current node 'curr_node', so we colours it gray (1).
+    colours[curr_node] = 1
+    for neighbour in graph[curr_node]:
+        if(dfs(graph, colours, neighbour, topo_sort)):
+            return True
+        
+    # Now we're done processing the neighbours of curr_node, so we update it to black colour (2).
+    colours[curr_node] = 2
+
+    # All the neighbours on which curr_node would be dependent on has been processed and added to topo_sort
+    # array at this point, so we can add curr_node now.
+    topo_sort.append(curr_node)
+
+    # False indicates no cycle detected for edges going out of curr_node.
+    return False
+
