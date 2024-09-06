@@ -18,8 +18,8 @@ Note that a bucket could only contain numbers from 1 to 6.
 
 We could use backtracking for sure. But a very efficient way to do this exists!
 
-First of all, because a dice rolls could be a maximum of 6, for any 'n' we could have a maximum of (6 * n) sum.
-Similarly, minimum could be (n) since each dice roll must be atleast 1. So, if target should be in the following range
+First of all, because a dice roll could be a maximum of 6, for any 'n' we could have a maximum of (6 * n) sum.
+Similarly, minimum could be (n) since each dice roll has a smallest value of 1. So, target should be in the following range
 otherwise no solution exists:
 n <= t <= (6 * n)                                                               ... (1)
 
@@ -62,7 +62,7 @@ mean_dr = 4
 This still does not equate 23. What happens really is 23 % 5 == (3) points remain to be added.
 Its always going to have (target % n), lets call this 'r', points remaning to be added.
 
-To resolve this, we can simple take 'r' dies and add 1 to them. So, in our example, we take the first 3
+To resolve this, we can simply take 'r' dies and add 1 to them. So, in our example, we take the first 3
 dies and add 1 to them to make them 5
 
 [5] [5] [5] [4] [4] = 23
@@ -70,7 +70,7 @@ dies and add 1 to them to make them 5
 Now we're done!
 
 'r' is always going to be smaller than n, because, well, (target % n) cannot be greater than or equal to n
-beause of the nature of the '%' operations.
+beause of the nature of the '%' operation.
 
 This solution works for all cases!
 
