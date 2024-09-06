@@ -1,0 +1,101 @@
+Inspired from the leetcode problem: https://leetcode.com/problems/find-missing-observations/description/
+
+
+This question basically boils down to finding 'n' buckets (dice rolls) whose sum equal to a targetted value, say 't'.
+
+[] [] [] [] [] == 12
+
+For example in the above case we have 5 dice rolls and their sum should be 12.
+Here is a solution
+[1] [1] [1] [6] [3] == 12
+
+Another solution is
+[2] [2] [2] [2] [4] == 12
+
+There could be multiple solutions and we are supposed to find any one of them.
+
+Note that a bucket could only contain numbers from 1 to 6.
+
+We could use backtracking for sure. But a very efficient way to do this exists!
+
+First of all, because a dice rolls could be a maximum of 6, for any 'n' we could have a maximum of (6 * n) sum.
+Similarly, minimum could be (n) since each dice roll must be atleast 1. So, if target should be in the following range
+otherwise no solution exists:
+n <= t <= (6 * n)                                                               ... (1)
+
+Intuition:
+I personally find that the intuition for this solution is kind of tough to come up with by yourself, unless you're a like a mathematician or something of course.
+What we can do is distribute a particular dice roll for all 'n' buckets that does not make the sum exceed the target.
+Best candidate for that is target // n (integer division), lets call this number 'mean_dr' for mean dice roll.
+If you think about it, populating all buckets with 'mean_dr' cannot exceed target. This is because target is not greater than
+(6 * n) from equation 1. 
+This means 'mean_dr' must fall in the range [1, 6]. 
+
+If it were something outside this range, say 7, then we would have
+
+mean_dr * n <= target
+Substitute 'mean_dr' = 7
+
+7 * n <= target
+
+This contradicts equation 1, because it gives the possibility that target == 7 * n.
+
+Lets take an example to understand better.
+n = 5           # We have 5 dice rolls.
+target = 23     # Sum of all the 5 dice rolls should be 23.
+[] [] [] [] [] == 23
+
+Lets now verify if 23 is in the range as per equation 1.
+n <= 23 <= 6 * n
+5 <= 23 <= 6 * 5
+5 <= 23 <= 30
+Indeed it is! We now know there is atleast 1 solution to (n = 5, target = 23).
+
+
+With that, let fill each bucket with 'mean_dr'
+mean_dr = target // n
+mean_dr = 23 // 5 
+mean_dr = 4
+
+[4] [4] [4] [4] [4] = 20
+
+This still does not equate 23. What happens really is 23 % 5 == (3) points remain to be added.
+Its always going to have (target % n), lets call this 'r', points remaning to be added.
+
+To resolve this, we can simple take 'r' dies and add 1 to them. So, in our example, we take the first 3
+dies and add 1 to them to make them 5
+
+[5] [5] [5] [4] [4] = 23
+
+Now we're done!
+
+'r' is always going to be smaller than n, because, well, (target % n) cannot be greater than or equal to n
+beause of the nature of the '%' operations.
+
+This solution works for all cases!
+
+Code:
+Note that this code is a solution to the problem from which this write-up is inspired from: https://leetcode.com/problems/find-missing-observations/description/
+So, it has different parameters than how its been explained above. The comments explain the mapping between the parameters.
+
+class Solution:
+    def missingRolls(self, rolls: List[int], mean: int, n: int) -> List[int]:
+        # Remaining points here in the code corresponds to target in the intuition section above.
+        remaining_points = (mean * (n + len(rolls))) - sum(rolls)
+
+        # We check if taraget is in the range from equation (1).
+        if(remaining_points > 6 * n or remaining_points < n):
+            return []
+
+        # 'distribution_mean' maps to 'mean_dr' from the intuition section.
+        distribution_mean = remaining_points // n
+
+        # 'mod' maps to 'r' from intuition section.
+        mod = remaining_points % n
+
+        res = [distribution_mean] * n
+        # We take 'mod' dies and add 1 to them as explained.
+        for i in range(mod):
+            res[i] += 1
+        
+        return res
