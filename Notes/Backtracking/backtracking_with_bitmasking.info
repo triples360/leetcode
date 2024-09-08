@@ -1,0 +1,82 @@
+Lets directly start with examples.
+
+Say we want generate all permutations of an array of size n, [1, 2, 3, 4, ..., n]
+
+We can define a recursive solution to this problem.
+Lets say permute([]) method takes and array and generates all permutations of that array. So, we wanna
+compute permute([1, 2, 3, ..., n])
+
+Lets keep 1 at the first position and call permute() on the rest of the array, permute([2, 3, ..., n]) 
+By definition, permute will generate all the permutations for [2, 3, 4, ..., n].
+
+This gives us all permutations that start with 1. Now, lets keep 2 at the first position and call permute()
+on the rest of the array, permute([1, 3, ..., n])
+Again, this will generate all permutations that start with 2.
+
+We can keep 3 at the first position and then so on to generate all permutations.
+
+This is, of course, a high level overview of how backtracking works.
+
+
+
+Lets take another example. Given an array of positive integers, divide it into k parts such that each part's sum is equal.
+This could be done using backtracking.
+
+We would start by dividing the sum of the whole array by k. If the result is not an integer then we can say no solution exist.
+Otherwise, the result is what each part's sum should be equal to, lets say that sum(array) // k is 'm'.
+
+So, you start by find the first subset whose sum equals m. For that you could pick up elements from the array.
+Assuming we found one such subset. Now, we'll continue to find the second such subset.
+When finding the second subset, we must know which elements were chosen for the first one so that we don't include
+any of them in the second subset. How could we achieve this?
+
+This is where we use the bitmasking approach. We won't need this in permute() example.
+
+Another thing to note in this type of backtracking is that there are two types of backtracking.
+1) When you haven't finished finding a subset with sum 'm' then we just remove the element at some index i and include
+   (i + 1)th element.
+2) When you have found a subset with sum 'm' then you start over from index 0 and start picking elements for the next
+   subset (excluding the elements which have already been picked of course).
+
+
+We can also use dynamic programming to speed up since there is optimal substructure and overlapping subproblems.
+
+
+Here is problem on LeetCode with k = 4: https://leetcode.com/problems/matchsticks-to-square/description
+
+The solution:
+
+class Solution:
+    def makesquare(self, matchsticks: List[int]) -> bool:
+        s = sum(matchsticks)
+        if(s % 4 != 0):
+            return False
+        side_len = s // 4
+        memory = {}
+
+        matchsticks.sort()
+        def aux(start, curr_sum, mask, k):
+            if(start == 0 and (k, mask) in memory):
+                return memory[(k, mask)]
+            if(curr_sum == side_len):
+                # Subset with sum == side_len has been found!
+                if(k == 3):
+                    # All subsets have been found finish up the program.
+                    return True
+                else:
+                    # Find the next subset.
+                    # Note that the 'start' position is 0
+                    return aux(0, 0, mask, k + 1)
+            
+
+            for i in range(start, len(matchsticks)):
+                if(matchsticks[i] + curr_sum > side_len):
+                    break
+                if(mask & (1 << i) == 0):
+                    if( aux(i + 1, curr_sum + matchsticks[i], mask | (1 << i), k) ):
+                        return True
+            memory[(k, mask)] = False
+            return False
+        
+
+        return aux(0, 0, 0, 1)
